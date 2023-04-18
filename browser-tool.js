@@ -14,7 +14,7 @@ app.config(['$compileProvider', function ($compileProvider) {
 app.controller('appController', ['$scope', function ($scope) {
 
   $scope.options = {
-    urlencode: true,
+    urlencode: false,
     iife: true,
     mangleVars: true,
     transpile: false,
