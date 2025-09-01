@@ -1,37 +1,51 @@
 // BookmarkleterSizeWatcher.js
 
 
-// 312 char
-javascript:void function(){clearInterval(a);var a,b,c,d,e=a=>document.querySelector(a);c=document.createElement("span"),b=e("#InputLabel"),b.parentNode.insertBefore(c,e("#InputLabel")),console.log("clearInterval("+(a=setInterval(a=>{d!=(d=a.value.length)&&(c.innerText=d?"("+d+")":"")},20,e("#Output")))+")")}();
+// 334 char
+javascript:void function(){function a(){let a,c,d=document.querySelector("#InputLabel"),e=document.querySelector("#Output"),f=document.createElement("span");d.parentNode.insertBefore(f,d),clearInterval(b),b=setInterval(()=>{c=e.value.length,a!=c&&(a=c,f.innerText=a?"("+a+")":"")},20),console.log("clearInterval("+b+")")}var b;a()}();
 
 
 
 /*
 
-clearInterval(timerSize);
+var timerSize;
 
+function init() {
 
-var qs = (sel) => document.querySelector(sel);
+  let sizePrev;
 
-var timerSize, elInput, elSize, lastSize;
+  let sizeNext;
 
-elSize = document.createElement("span");
+  let elInput = document.querySelector("#InputLabel");
 
-elInput = qs("#InputLabel");
+  let elOutput = document.querySelector("#Output");
 
-elInput.parentNode.insertBefore( elSize, qs("#InputLabel") );
+  let elSize = document.createElement("span");
 
-console.log( "clearInterval(" + (
-  timerSize = setInterval( (elOutput) => {
-    // console.log( "\n\n", lastSize, elOutput.value.length );
-    if ( lastSize != ( lastSize = elOutput.value.length ) ) {
+  elInput.parentNode.insertBefore( elSize, elInput );
+
+  clearInterval(timerSize);
+
+  timerSize = setInterval( () => {
+
+    sizeNext = elOutput.value.length;
+
+    // console.log( "\n\n", elSize.innerText, sizePrev, sizeNext );
+    if (sizePrev != sizeNext) {
+      sizePrev = sizeNext;
       elSize.innerText = (
-        lastSize ? "(" + lastSize + ")" : ""
+        sizePrev ? "(" + sizePrev + ")" : ""
       );
     };
-    // console.log( lastSize, elOutput.value.length );
-  }, 20, qs("#Output") ) ) + ")"
-);
+    // console.log( elSize.innerText, sizePrev, sizeNext );
+
+  }, 20 ) ;
+
+  console.log( "clearInterval(" + timerSize + ")" );
+
+};
+
+init();
 
 */
 
