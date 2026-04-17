@@ -5,7 +5,8 @@
 
 		<meta charset="utf-8">
 
-		<link href="//fonts.googleapis.com/css?family=Arvo:regular,italic,bold" rel="stylesheet" type="text/css">
+		<!-- <link href="//fonts.googleapis.com/css?family=Arvo:regular,italic,bold" rel="stylesheet" type="text/css"> -->
+		<link href="https://fonts.googleapis.com/css?family=Arvo:regular,italic,bold" rel="stylesheet" type="text/css">
 
 		<style>
 
@@ -176,7 +177,7 @@
 			<fieldset id="Labels">
 				<label id="InputLabel" for="Input">JavaScript</label>
 				<label id="OutputLabel" for="Output">Bookmarklet</label>
-				<div id="ErrorOutput" ng-show="error">{{ error }}</div>
+				<div id="ErrorOutput" ng-show="error" style="display: none">{{ error }}</div>
 			</fieldset>
 
 			<fieldset id="OutputFields">
@@ -192,6 +193,7 @@
 
 		<div><a href="https://github.com/darrensem/bookmarkleter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a></div>
 
+		<script src="build/BookmarkleterCopyToClipboard.js"></script>
 		<script src="build/browser-tool.js"></script>
 		<script src="build/BookmarkleterSizeWatcher.js"></script>
 
