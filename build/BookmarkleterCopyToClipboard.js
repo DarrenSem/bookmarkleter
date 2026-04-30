@@ -1,10 +1,10 @@
 // BookmarkleterCopyToClipboard.js
 
 
-// 1613 char  javascript:void function(){(function(){let a=document.querySelector("#InputLabel"),b=document.querySelector("#Output"),c=document.createElement("button"),d=document.querySelector("#OutputLabel"),e=[...document.querySelectorAll("textarea")].find(a=>a.outerHTML.includes("updateBookmarklet")),f=a=>(a??"\n")+new Date().toLocaleTimeString(),g=(a,b,c)=>(setTimeout(()=>a?.focus(),b||0),c?.(),a),h=async(a,b,c,d)=>(b=b||(()=>{}),c=c||40,d=d||5e3,Promise.resolve().then(()=>navigator.clipboard.writeText(a).then(()=>b(a)).catch(c=>b(a,c))));(()=>{let a=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),i=a(d,"paddingLeft")??["12px","12","px"],j=a(d,"paddingBottom")??["6px","6","px"],k=a(d,"lineHeight")??["36px","36","px"],{style:l}=c;d.insertBefore(c,d.firstChild),c.innerText="\uD83D\uDCCB",c.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",l.marginRight=.75*i[1]+i[2],l.marginBottom=.75*j[1]+j[2],l.verticalAlign="middle",c.addEventListener("click",async()=>{let a=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(f(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(f(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},c=b.value;if(!c.length)return e.value.trim()||(e.value="// "+e.placeholder+"\n"),g(e),a(c,e.placeholder);return(b.select(),document.execCommand("copy"))?(g(e),a(c)):(g(e),await h(c,a))})})(),console.log(Promise.resolve(f("// BookmarkleterCopyToClipboard.js @ ")).then(a=>(g(e),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),a)))})()}();
+// 1785 char  javascript:void function(){(function(){let a=document.querySelector("#InputLabel"),b=document.querySelector("#Output"),c=document.createElement("button"),d=document.querySelector("#OutputLabel"),e=[...document.querySelectorAll("textarea")].find(a=>a.outerHTML.includes("updateBookmarklet")),f=a=>(a??"\n")+new Date().toLocaleTimeString(),g=(a,b,c)=>(setTimeout(()=>a?.focus(),b||0),c?.(),a),h=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()}));(()=>{let a=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),i=a(d,"paddingLeft")??["12px","12","px"],j=a(d,"paddingBottom")??["6px","6","px"],k=a(d,"lineHeight")??["36px","36","px"],{style:l}=c;d.insertBefore(c,d.firstChild),c.innerText="\uD83D\uDCCB",c.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",l.marginRight=.75*i[1]+i[2],l.marginBottom=.75*j[1]+j[2],l.verticalAlign="middle",c.addEventListener("click",async()=>{let a=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(f(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(f(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},c=b.value;if(!c.length)return e.value.trim()||(e.value="// "+e.placeholder+"\n"),g(e),a(c,e.placeholder);b.select(),g(e);let d=await h(c,a);if(!d&&!d[2])return d;let i=document.execCommand("copy")&&a(c);return i})})(),console.log(Promise.resolve(f("// BookmarkleterCopyToClipboard.js @ ")).then(a=>(g(e),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),a)))})()}();
 
 
-// TODO: add a wrapper loop to update failure logic, so instead of immediately calling fnAfter(text, err) it will now retry after msPolling interval (until msTimeout)
+// 30Apr2026 306pm: add a wrapper loop to update failure logic in copyToClipboard, so instead of immediately calling fnAfter(text, err) it will now retry after msPolling interval (until msTimeout)
 
 
 //// /*
@@ -34,28 +34,87 @@ function init() {
   let focus = (el, msDelay, fnAfter) => ( setTimeout( () => el?.focus(), msDelay || 0 ), fnAfter?.(), el );
 
 
+  // updated version; any exception thrown inside `fnAfter` will THROW THAT EXCEPTION (aka the resolve(...) will be attempted and error out)
+
   let copyToClipboard = async (text, fnAfter, msPolling, msTimeout) => {
 
     // console.log( { text, fnAfter, msPolling, msTimeout } ); debugger;
 
     fnAfter = fnAfter || ( _ => {} );
 
-    msPolling = msPolling || 40;
+    // debugger;
+    msPolling = msPolling ?? 40;
 
-    msTimeout = msTimeout || 5000;
+    msTimeout = msTimeout || 2000;
 
-    // TODO: add a wrapper loop to update failure logic, so instead of immediately calling fnAfter(text, err) it will now retry after msPolling interval (until msTimeout)
+    // debugger;
+    return new Promise( (resolve) => {
 
-    return Promise.resolve().then( _ => (
+      let lastError;
 
-      navigator.clipboard.writeText(text)
+      // let isRunning; // used for preventing DUPLICATE CALLS of writeText() while the first attempt is not finished yet (e.g. if msPolling is very low like 40)
 
-      // .then(fnAfter)
-      .then(_ => fnAfter(text))
+      let clipboardWriteText = () => {
 
-      .catch(err => fnAfter(text, err))
+        if (true || !isRunning) {
 
-    ) );
+          // isRunning = 1; // comment out to confirm DUPLICATE CALLS of writeText() while the first attempt is not finished yet (e.g. if msPolling is very low like 40)
+          // ^ DONE: confirmed, no longer NEED this because switched to timerPolling = setTimeout() instead of setInterval()
+
+          navigator.clipboard.writeText(text)
+          .then( _ => {
+
+            clearTimers();
+
+            resolve( fnAfter(text) );  // Success: resolve with fnAfter result
+
+          })
+          .catch(err => {
+
+            lastError = err;  // Save last error (used for Timeout) then retry on next interval (comment out to verify " || 1" works)
+
+          })
+          .finally( () => {
+
+            // console.log("_finally_"); debugger; // for testing esp. during DUPLICATE CALLS
+
+            if (timerTimeout) {
+              // isRunning = 0; // required if switched back to timerPolling = setInterval() instead of setTimeout()
+              startPolling();
+            };
+
+          } );
+
+        }; // end if (true || !isRunning) {
+
+      };
+
+      let timerPolling;
+
+      let timerTimeout;
+
+      let clearTimers = () => {
+        [ timerPolling, timerTimeout ].forEach(clearTimeout);
+        timerTimeout = 0;
+      };
+
+      let startPolling = () => timerPolling = setTimeout( clipboardWriteText, msPolling );
+
+      timerTimeout = setTimeout( _ => {
+
+        clearTimers();
+
+        resolve( fnAfter(text, lastError || 1) );  // Timeout: resolve with fnAfter and last error (or 1, to make sure 2nd arg is truthy)
+
+      }, msTimeout );
+
+      if (!"DEBUG_DELAY_INITIALLY_AKA_DO_NOT_INSTANTLY_DO_FIRST_TRY") {
+        startPolling();
+      } else {
+        clipboardWriteText(); // instantly do first try
+      };
+
+    } ); // end return new Promise( (resolve) => {
 
   };
 
@@ -67,9 +126,11 @@ function init() {
 
       // console.log( { _evt } ); debugger;
 
+
       let fnAfterCopy = (data, err) => {
 
-        // console.log( { data, err } ); debugger;
+        // console.log( { data, err } );
+        // debugger; // temp for testing why DUPLICATE CALLS when writeText() was successful
 
         let message;
 
@@ -100,7 +161,7 @@ function init() {
 
         return returned;
 
-      };
+      }; // end let fnAfterCopy = (data, err) => {
 
 
       let minifiedCode = elOutput.value;
@@ -141,41 +202,45 @@ function init() {
 
         return minifiedCode;
 
-      } else {
+      };
+      
 
-        // $('#source').select();
-        elOutput.select();
+      // $('#source').select();
+      elOutput.select();
 
-        // console.log( { minifiedCode, fnAfterCopy } ); debugger;
+      // console.log( { minifiedCode, fnAfterCopy } ); debugger;
 
-        if (document.execCommand("copy") ) {
 
-          return (
+      // setTimeout( () => click(elOutput), 2000 )
+      // setTimeout( () => click(elOutput, !!"useNormalClick"), 2000 )
+      // setTimeout( () => click(textareaFirstFocus), 2000 )
+      // setTimeout( () => click(textareaFirstFocus, !!"useNormalClick"), 2000 )
+      focus(textareaFirstFocus);
 
-            // setTimeout( () => click(elOutput), 2000 )
-            // setTimeout( () => click(elOutput, !!"useNormalClick"), 2000 )
-            // setTimeout( () => click(textareaFirstFocus), 2000 )
-            // setTimeout( () => click(textareaFirstFocus, !!"useNormalClick"), 2000 )
-            focus(textareaFirstFocus)
+      let clipboardCopyModernBrowsers = (
 
-            , fnAfterCopy(minifiedCode)
-          );
+        // await copyToClipboard(minifiedCode, fnAfterCopy, 0) // temp for confirming msPolling can be 0 instead of its default 40
+        // await copyToClipboard(minifiedCode, fnAfterCopy, 499) // temp for testing "no focus" failure or "DELAY_INITIALLY", OR for confirming no longer DUPLICATE CALLS of writeText() while the first attempt is not finished yet (e.g. if msPolling is very low like 40)
+        await copyToClipboard(minifiedCode, fnAfterCopy) // defaults: msPolling = 40 [0 is permitted], msTimeout = 2000 [0 is NOT permitted]
 
-        };
+      );
 
-        return (
-          // setTimeout( () => click(elOutput), 2000 )
-          // setTimeout( () => click(elOutput, !!"useNormalClick"), 2000 )
-          // setTimeout( () => click(textareaFirstFocus), 2000 )
-          // setTimeout( () => click(textareaFirstFocus, !!"useNormalClick"), 2000 )
-          focus(textareaFirstFocus)
 
-          , await copyToClipboard(minifiedCode, fnAfterCopy)
-        );
-
+      // debugger;
+      if (!clipboardCopyModernBrowsers && !clipboardCopyModernBrowsers[2] ) {
+        // ^ returned = ["FAILURE", data, err];
+        // versus returned = ["SUCCESS", data];
+        return clipboardCopyModernBrowsers;
       };
 
-    };
+      // debugger;
+      let clipboardCopyLegacyBrowsers = (
+        document.execCommand("copy")
+        && fnAfterCopy(minifiedCode)
+      );
+      return clipboardCopyLegacyBrowsers;
+
+    }; // end let handleCopyClick = async (_evt) => { // based on https://beautifier.io/
 
 
     let getFirstNumericStyle = (el, propName) => getComputedStyle(el)[propName]?.match(/^([\d.]*)(.*)/);
@@ -208,7 +273,7 @@ function init() {
     btnCopy.addEventListener("click", handleCopyClick);
 
 
-  };
+  }; // end let createCopyButton = () => {
 
 
   createCopyButton();
