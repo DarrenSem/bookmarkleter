@@ -1,13 +1,13 @@
 // BookmarkleterCopyToClipboard.js
 
 
-// 1768 char  javascript:void function(){(function(){let a=document.querySelector("#InputLabel"),b=document.querySelector("#Output"),c=document.createElement("button"),d=document.querySelector("#OutputLabel"),e=document.querySelector("textarea#pastebin"),f=a=>(a??"\n")+new Date().toLocaleTimeString(),g=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),h=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()})),i=async()=>{let a=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(f(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(f(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},c=b.value;if(!c.length)return e.value.trim()||(e.value="// "+e.placeholder+"\n"),g(e),a(c,e.placeholder);b.select(),g(e);let d=await h(c,a);if(d&&!d[2])return d;let i=document.execCommand("copy")&&a(c);return i};(()=>{let a=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),{style:b}=c;c.innerText="\uD83D\uDCCB",c.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",b.verticalAlign="middle",d.prepend(c);let e=a(d,"paddingLeft")??["12px","12","px"],f=a(d,"paddingBottom")??["6px","6","px"],g=a(d,"lineHeight")??["36px","36","px"];b.marginRight=.75*e[1]+e[2],b.marginBottom=.75*f[1]+f[2],c.addEventListener("click",i)})(),console.log(Promise.resolve(f("// BookmarkleterCopyToClipboard.js @ ")).then(a=>(g(e),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),a)))})(),document.title="Bookmarkleter (LCL, wip)"}();
+// 1849 char  javascript:void function(){(function(a){let b=document.querySelector("#InputLabel"),c=document.querySelector("#Output"),d=document.createElement("button"),e=document.querySelector("#OutputLabel"),f=document.querySelector("textarea#pastebin"),g=a=>(a??"\n")+new Date().toLocaleTimeString(),h=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),i=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),j=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()})),k=async()=>{let a=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(g(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(g(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},b=c.value;if(!b.length)return f.value.trim()||(f.value="// "+f.placeholder+"\n"),h(f),a(b,f.placeholder);c.select(),h(f);let d=await j(b,a);if(d&&!d[2])return d;let e=document.execCommand("copy")&&a(b);return e},{style:l}=d;(a=>{if(d.addEventListener("click",k),d.innerText="\uD83D\uDCCB",d.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",l.verticalAlign="middle",a){let a=i(e,"paddingLeft")??["12px","12","px"],b=i(e,"paddingBottom")??["6px","6","px"];l.marginRight=.75*a[1]+a[2],l.marginBottom=.75*b[1]+b[2],e.prepend(d)}else{let a=i(b,"paddingLeft")??["12px","12","px"],c=i(b,"paddingBottom")??["6px","6","px"];l.marginLeft=.75*a[1]+a[2],l.marginBottom=.75*c[1]+c[2],b.append(d)}})(a),console.log(Promise.resolve(g("// BookmarkleterCopyToClipboard.js @ ")).then(a=>(h(f),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),a)))})()}();
 
 
 //// /*
 
 
-function init() {
+function init(rightSide) {
 
 
   let elInputLabel = document.querySelector("#InputLabel");
@@ -30,6 +30,8 @@ function init() {
   // let click = (el, useNormalClick) => ( ( useNormalClick ? el?.click() : el?.dispatchEvent?.(clicker) ), el );
 
   let focus = (el, msDelay, fnAfter) => { setTimeout( () => el?.focus?.(), msDelay || 0 ); fnAfter?.(); return el; };
+
+  let getFirstNumericStyle = (el, propName) => getComputedStyle(el)[propName]?.match(/^([\d.]*)(.*)/);
 
 
   let copyToClipboard = async (text, fnAfter, msPolling, msTimeout) => {
@@ -237,45 +239,64 @@ function init() {
   }; // end let handleCopyClick = async (_evt) => { // based on https://beautifier.io/
 
 
-  let createCopyButton = () => {
+  let {style} = btnCopy;
+
+  let createCopyButton = (rightSide) => {
 
 
-    let getFirstNumericStyle = (el, propName) => getComputedStyle(el)[propName]?.match(/^([\d.]*)(.*)/);
-
-    let {style} = btnCopy;
+    btnCopy.addEventListener("click", handleCopyClick);
 
     btnCopy.innerText = "📋";
     btnCopy.title = "Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/";
-
 
     //// style.verticalAlign = "baseline"; // (default?) Aligns the baseline of the element with the baseline of its parent. The baseline of some replaced elements, like <textarea>, is not specified by the HTML specification, meaning that their behavior with this keyword may vary between browsers. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#baseline
     style.verticalAlign = "middle"; // Aligns the middle of the element with the baseline plus half the x-height of the parent. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#middle
 
 
-    // elOutputLabel.insertBefore( btnCopy, elOutputLabel.firstChild );
-    // elOutputLabel.firstChild.before( btnCopy );
-    elOutputLabel.prepend( btnCopy );
+    if (rightSide) {
 
-    let labelPaddingLeft = getFirstNumericStyle(elOutputLabel, "paddingLeft") ?? [ "12px", "12", "px" ];
-    let labelPaddingBottom = getFirstNumericStyle(elOutputLabel, "paddingBottom") ?? [ "6px", "6", "px" ];
-    let labelLineHeight = getFirstNumericStyle(elOutputLabel, "lineHeight") ?? [ "36px", "36", "px" ];
+      let labelPaddingLeft = getFirstNumericStyle(elOutputLabel, "paddingLeft") ?? [ "12px", "12", "px" ];
+      let labelPaddingBottom = getFirstNumericStyle(elOutputLabel, "paddingBottom") ?? [ "6px", "6", "px" ];
+      // let labelLineHeight = getFirstNumericStyle(elOutputLabel, "lineHeight") ?? [ "36px", "36", "px" ];
 
-    //// style.marginRight = labelPaddingLeft[0];
-    style.marginRight = ( labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+      //// style.marginRight = labelPaddingLeft[0];
+      style.marginRight = ( labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
 
+      style.marginBottom = ( labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
 
-    //// style.height = labelLineHeight[0];
-    //// style.height = ( labelLineHeight[1] * 0.75 ) + labelLineHeight[2];
-    style.marginBottom = ( labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+      //// style.height = labelLineHeight[0];
+      //// style.height = ( labelLineHeight[1] * 0.75 ) + labelLineHeight[2];
 
+      // elOutputLabel.insertBefore( btnCopy, elOutputLabel.firstChild );
+      // elOutputLabel.firstChild.before( btnCopy );
+      elOutputLabel.prepend( btnCopy );
 
-    btnCopy.addEventListener("click", handleCopyClick);
+    } else {
+
+      let labelPaddingLeft = getFirstNumericStyle(elInputLabel, "paddingLeft") ?? [ "12px", "12", "px" ];
+      let labelPaddingBottom = getFirstNumericStyle(elInputLabel, "paddingBottom") ?? [ "6px", "6", "px" ];
+      // let labelLineHeight = getFirstNumericStyle(elInputLabel, "lineHeight") ?? [ "36px", "36", "px" ];
+
+      //// style.marginLeft = labelPaddingLeft[0];
+      style.marginLeft = ( labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+
+      style.marginBottom = ( labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+
+      //// style.height = labelLineHeight[0];
+      //// style.height = ( labelLineHeight[1] * 0.75 ) + labelLineHeight[2];
+
+      // elInputLabel.insertAdjacentElement( "beforeend", btnCopy );
+      // elInputLabel.appendChild( btnCopy );
+      elInputLabel.append( btnCopy );
+
+    };
 
 
   }; // end let createCopyButton = () => {
 
 
-  createCopyButton();
+  //// createCopyButton();
+  createCopyButton(rightSide);
 
 
   console.log(
@@ -298,7 +319,7 @@ function init() {
 };
 
 init();
-
+// init(!!"DEBUG_COPY_BUTTON_THE_RIGHT_SIDE");
 
 //// */
 
