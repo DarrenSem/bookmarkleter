@@ -1,7 +1,7 @@
 // BookmarkleterCopyToClipboard.js
 
 
-// 1928 char  javascript:void function(){"use strict";(function(a){let b=document.querySelector("#InputLabel"),c=document.querySelector("#Output"),d=document.createElement("button"),e=document.querySelector("#OutputLabel"),f=document.querySelector("textarea#pastebin"),g=(a="\n",b=new Date)=>a+b.toLocaleTimeString().replace(/ /,"."+("00"+b.getMilliseconds()).slice(-3)+" "),h=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),i=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),j=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()})),k=async()=>{let a=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(g(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(g(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},b=c.value;if(!b.length)return f.value.trim()||(f.value="// "+f.placeholder+"\n"),h(f),a(b,f.placeholder);c.select(),h(f);let d=await j(b,a);if(d&&!d[2])return d;let e=document.execCommand("copy")&&a(b);return e},{style:l}=d;(a=>{if(d.addEventListener("click",k),d.innerText="\uD83D\uDCCB",d.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",l.verticalAlign="middle",a){let a=i(e,"paddingLeft")??["12px","12","px"],b=i(e,"paddingBottom")??["6px","6","px"];l.marginRight=.75*a[1]+a[2],l.marginBottom=.75*b[1]+b[2],e.prepend(d)}else{let a=i(b,"paddingLeft")??["12px","12","px"],c=i(b,"paddingBottom")??["6px","6","px"];l.marginLeft=.75*a[1]+a[2],l.marginBottom=.75*c[1]+c[2],b.append(d)}})(a),Promise.resolve(g("// loaded BookmarkleterCopyToClipboard.js @ ")).then(a=>(h(f),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),console.log(a)))})()}();
+// 1956 char  javascript:void function(){"use strict";var a=location.S||={};(function(b){let c=document.querySelector("#InputLabel"),d=document.querySelector("#Output"),e=document.createElement("button"),f=document.querySelector("#OutputLabel"),g=document.querySelector("textarea#pastebin"),h=(a="\n",b=new Date)=>a+b.toLocaleTimeString().replace(/ /,"."+("00"+b.getMilliseconds()).slice(-3)+" "),i=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),j=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),k=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()})),l=async()=>{let b=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(h(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(h(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},c=a?.T||d.value;if(!c.length)return g.value.trim()||(g.value="// "+g.placeholder+"\n"),i(g),b(c,g.placeholder);d.select(),i(g);let e=await k(c,b);if(e&&!e[2])return e;let f=document.execCommand("copy")&&b(c);return f},{style:m}=e;(a=>{if(e.addEventListener("click",l),e.innerText="\uD83D\uDCCB",e.title="Click to copy to clipboard \nthe full contents of the Bookmarklet below \\/",m.verticalAlign="middle",a){let a=j(f,"paddingLeft")??["12px","12","px"],b=j(f,"paddingBottom")??["6px","6","px"];m.marginRight=.75*a[1]+a[2],m.marginBottom=.75*b[1]+b[2],f.prepend(e)}else{let a=j(c,"paddingLeft")??["12px","12","px"],b=j(c,"paddingBottom")??["6px","6","px"];m.marginLeft=.75*a[1]+a[2],m.marginBottom=.75*b[1]+b[2],c.append(e)}})(b),Promise.resolve(h("// loaded BookmarkleterCopyToClipboard.js @ ")).then(a=>(i(g),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),console.log(a)))})()}();
 
 
 //// /*
@@ -9,6 +9,9 @@
 
 "use strict";
 
+
+var selected = ( location.S ||= {} );
+// ^ selected = { a: elOutput.selectionStart, z: elOutput.selectionEnd, L: length of selected text, T: selected text };
 
 function initClipboard(rightSide) {
 
@@ -172,7 +175,14 @@ function initClipboard(rightSide) {
     }; // end let fnAfterCopy = (data, err) => {
 
 
-    let minifiedCode = elOutput.value;
+    let minifiedCode = (
+
+      selected?.T ||
+      // ^ selected = { a: elOutput.selectionStart, z: elOutput.selectionEnd, L: length of selected text, T: selected text };
+
+      elOutput.value
+
+    );
 
 
     if ( !minifiedCode.length  ) {
@@ -311,17 +321,6 @@ function initClipboard(rightSide) {
   createCopyButton(rightSide);
 
 
-  // console.log(
-  //   Promise.resolve( now("// BookmarkleterCopyToClipboard.js @ ") )
-  //   .then( logLine => (
-  //     focus(textareaFirstFocus),
-  //     setTimeout( _ => (
-  //       //// document.querySelector("#ErrorOutput").style.display = "block"
-  //       document.querySelector("#ErrorOutput").style.display = ""
-  //     ), 999 )
-  //     , logLine
-  //   ) )
-  // );
   Promise.resolve( now("// loaded BookmarkleterCopyToClipboard.js @ ") )
   .then( logLine => (
     focus(textareaFirstFocus),
