@@ -1,7 +1,7 @@
 // BookmarkleterCopyToClipboard.js
 
 
-// 1951 char  javascript:void function(){"use strict";var a=location.S||={};(function(b){let c=document.querySelector("#InputLabel"),d=document.querySelector("#Output"),e=document.createElement("button"),f=document.querySelector("#OutputLabel"),g=document.querySelector("textarea#pastebin"),h=(a="\n",b=new Date)=>a+b.toLocaleTimeString().replace(/ /,"."+("00"+b.getMilliseconds()).slice(-3)+" "),i=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),j=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),k=async(a,b,c,d)=>(b=b||(()=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(()=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(()=>{j(),e(b(a,f||1))},d),i()})),l=async()=>{let b=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(h(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(h(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},c=a?.T||d.value;if(!c.length)return g.value.trim()||(g.value="// "+g.placeholder+"\n"),i(g),b(c,g.placeholder);d.select(),i(g);let e=await k(c,b);if(e&&!e[2])return e;let f=document.execCommand("copy")&&b(c);return f},{style:m}=e;(a=>{if(e.addEventListener("click",l),e.innerText="\uD83D\uDCCB",e.title="Click to copy to clipboard \nthe contents of the Bookmarklet below \\/",m.verticalAlign="middle",a){let a=j(f,"paddingLeft")??["12px","12","px"],b=j(f,"paddingBottom")??["6px","6","px"];m.marginRight=.75*a[1]+a[2],m.marginBottom=.75*b[1]+b[2],f.prepend(e)}else{let a=j(c,"paddingLeft")??["12px","12","px"],b=j(c,"paddingBottom")??["6px","6","px"];m.marginLeft=.75*a[1]+a[2],m.marginBottom=.75*b[1]+b[2],c.append(e)}})(b),Promise.resolve(h("// loaded BookmarkleterCopyToClipboard.js @ ")).then(a=>(i(g),setTimeout(()=>document.querySelector("#ErrorOutput").style.display="",999),console.log(a)))})()}();
+// 2287 char  javascript:void function(){"use strict";var a=location.S||={},b=(a,b,c,d)=>{let{class:e,style:f,...g}=a||={},h=Object.assign(document.createElement(b||"button"),g),i=((e||"")+" "+(d||"")+" "+(b?"":" icon ")).split(" ").filter(a=>a);return i.length&&h.classList.add(...i),Object.entries({...f,...c}).forEach(([a,b])=>{h.style[a]=b}),h};(function(c){let d,e,f=document.querySelector("#InputLabel"),g=document.querySelector("#Output"),h=document.querySelector("#OutputLabel"),i=document.querySelector("textarea#pastebin"),j=(a="\n",b=new Date)=>a+b.toLocaleTimeString().replace(/ /,"."+("00"+b.getMilliseconds()).slice(-3)+" "),k=(a,b,c)=>(setTimeout(()=>a?.focus?.(),b||0),c?.(),a),l=(a,b)=>getComputedStyle(a)[b]?.match(/^([\d.]*)(.*)/),m=async(a,b,c,d)=>(b=b||(a=>{}),c=c??40,d=d||2e3,new Promise(e=>{let f,g,h,i=()=>{navigator.clipboard.writeText(a).then(c=>{j(),e(b(a))}).catch(a=>{f=a}).finally(()=>{h&&k()})},j=()=>{[g,h].forEach(clearTimeout),h=0},k=()=>g=setTimeout(i,c);h=setTimeout(c=>{j(),e(b(a,f||1))},d),"DEBUG_DELAY_INITIALLY_AKA_DO_NOT_INSTANTLY_DO_FIRST_TRY"?i():k()})),n=async b=>{let c=(a,b)=>{let c,d;b?(c="\u274CClipboard copy FAIL. "+b+"\n",console.error(j(),c,{["data("+a.length+")"]:a,err:b}),d=["FAILURE",a,b]):(c="\u2705Clipboard copy successful.\n",console.log(j(),c,{["data("+a.length+")"]:a}),d=["SUCCESS",a]);return d},d=a?.T||g.value;if(!d.length)return i.value.trim()||(i.value="// "+i.placeholder+"\n"),k(i),c(d,i.placeholder);g.select(),k(i);let e=await m(d,c);if(e&&!e[2])return e;let f=document.execCommand("copy")&&c(d);return f},o=a=>{d=b({id:"Copy",onclick:n,innerText:"\uD83D\uDCCB",title:"Click to copy to clipboard \nthe contents of the Bookmarklet below \\/"}),e=d.style;let c="middle";if(e.verticalAlign="middle",a){let a=l(h,"paddingLeft")??["12px","12","px"],b=l(h,"paddingBottom")??["6px","6","px"],c=.75*+a[1]+a[2];e.marginRight=c;let f=.75*+b[1]+b[2];e.marginBottom=f,h.prepend(d)}else{let a=l(f,"paddingLeft")??["12px","12","px"],b=l(f,"paddingBottom")??["6px","6","px"],c=.75*+a[1]+a[2];e.marginLeft=c;let g=.75*+b[1]+b[2];e.marginBottom=g,f.append(d)}};o(c),Promise.resolve(j("// loaded BookmarkleterCopyToClipboard.js @ ")).then(a=>(k(i),setTimeout(a=>document.querySelector("#ErrorOutput").style.display="",999),console.log(a)))})()}();
 
 
 //// /*
@@ -13,6 +13,31 @@
 var selected = ( location.S ||= {} );
 // ^ selected = { a: elOutput.selectionStart, z: elOutput.selectionEnd, L: length of selected text, T: selected text };
 
+
+var createButton = (attributesObject, tagNameString, styleObject, classNameString) => {
+
+  let DEFAULT_BUTTON_CLASSNAME = " icon "; // added to end of classes if !tagNameString
+
+  let { class: _class, style: _style, ...restivus } = ( attributesObject ||= {} );
+
+  let el = Object.assign( document.createElement(tagNameString || "button"), restivus );
+
+  let classes = (
+    ( _class || "" )
+    + " " + ( classNameString || "" )
+    + " " + ( !tagNameString ? DEFAULT_BUTTON_CLASSNAME : "" )
+  ).split(" ").filter(v => v);
+
+  if ( classes.length ) { el.classList.add(...classes); };
+
+  Object.entries( { ..._style, ...styleObject } )
+  .forEach( ( [ key, value ] ) => { el.style[ key ] = value; } );
+
+  return el;
+
+};
+
+
 function initClipboard(rightSide) {
 
 
@@ -20,7 +45,7 @@ function initClipboard(rightSide) {
 
   let elOutput = document.querySelector("#Output");
 
-  let btnCopy = document.createElement("button");
+  let btnCopy;
 
   // let elOutputLabel = [...elInputLabel.parentNode.querySelectorAll("label")].at(-1);
   let elOutputLabel = document.querySelector("#OutputLabel"); // DEBUG_COPY_BUTTON_THE_RIGHT_SIDE
@@ -261,18 +286,22 @@ function initClipboard(rightSide) {
   }; // end let handleCopyClick = async (_evt) => { // based on https://beautifier.io/
 
 
-  let {style} = btnCopy;
+  let style;
 
   let createCopyButton = (rightSide) => {
 
+    btnCopy = createButton( {
+      id: "Copy",
+      onclick: handleCopyClick, // btnCopy.addEventListener("click", handleCopyClick);
+      innerText: "📋",
+      title: "Click to copy to clipboard \nthe contents of the Bookmarklet below \\/",
+    } );
 
-    btnCopy.addEventListener("click", handleCopyClick);
+    style = btnCopy.style;
 
-    btnCopy.innerText = "📋";
-    btnCopy.title = "Click to copy to clipboard \nthe contents of the Bookmarklet below \\/";
-
-    //// style.verticalAlign = "baseline"; // (default?) Aligns the baseline of the element with the baseline of its parent. The baseline of some replaced elements, like <textarea>, is not specified by the HTML specification, meaning that their behavior with this keyword may vary between browsers. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#baseline
-    style.verticalAlign = "middle"; // Aligns the middle of the element with the baseline plus half the x-height of the parent. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#middle
+    //// let verticalAlign = "baseline"; // (default?) Aligns the baseline of the element with the baseline of its parent. The baseline of some replaced elements, like <textarea>, is not specified by the HTML specification, meaning that their behavior with this keyword may vary between browsers. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#baseline
+    let verticalAlign = "middle"; // Aligns the middle of the element with the baseline plus half the x-height of the parent. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/vertical-align#middle
+    style.verticalAlign = verticalAlign;
 
 
     if (rightSide) {
@@ -281,10 +310,13 @@ function initClipboard(rightSide) {
       let labelPaddingBottom = getFirstNumericStyle(elOutputLabel, "paddingBottom") ?? [ "6px", "6", "px" ];
       // let labelLineHeight = getFirstNumericStyle(elOutputLabel, "lineHeight") ?? [ "36px", "36", "px" ];
 
-      //// style.marginRight = labelPaddingLeft[0];
-      style.marginRight = ( labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+      // let marginRight = labelPaddingLeft[0];
+      let marginRight = ( +labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+      style.marginRight = marginRight;
 
-      style.marginBottom = ( labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+      let marginBottom = ( +labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+      style.marginBottom = marginBottom;
+
 
       //// style.height = labelLineHeight[0];
       //// style.height = ( labelLineHeight[1] * 0.75 ) + labelLineHeight[2];
@@ -299,10 +331,13 @@ function initClipboard(rightSide) {
       let labelPaddingBottom = getFirstNumericStyle(elInputLabel, "paddingBottom") ?? [ "6px", "6", "px" ];
       // let labelLineHeight = getFirstNumericStyle(elInputLabel, "lineHeight") ?? [ "36px", "36", "px" ];
 
-      //// style.marginLeft = labelPaddingLeft[0];
-      style.marginLeft = ( labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+      // let marginLeft = labelPaddingLeft[0]
+      let marginLeft = ( +labelPaddingLeft[1] * 0.75 ) + labelPaddingLeft[2];
+      style.marginLeft = marginLeft;
 
-      style.marginBottom = ( labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+      let marginBottom = ( +labelPaddingBottom[1] * 0.75 ) + labelPaddingBottom[2];
+      style.marginBottom = marginBottom;
+
 
       //// style.height = labelLineHeight[0];
       //// style.height = ( labelLineHeight[1] * 0.75 ) + labelLineHeight[2];
