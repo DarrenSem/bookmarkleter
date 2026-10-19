@@ -47,6 +47,23 @@ function initSizeWatcher() {
   let btnCopy;
 
 
+  let softenThingsUp = () => {
+
+    let STYLE_ID = "button-softener";
+
+    let elStyle = document.querySelector("style#" + STYLE_ID);
+
+    if (!elStyle) {
+      document.head.appendChild( Object.assign( document.createElement("style"), { textContent: (
+      "button:active,input[type='checkbox']:active,img:hover { transform: scale(0.97); }" // based on https://github.com/emilkowalski/skills/blob/main/skills/emil-design-eng/SKILL.md
+      + "\n" + "button,input,textarea,fieldset,label { border-radius: 0.42em; transition: transform 160ms ease-out; }"
+      + "\n" + "input[type='text']:active,textarea:active,#OutputLink:active { transform: scale(0.995); transition: transform 100ms ease-out; }"
+      ), id: STYLE_ID } ) );
+    };
+
+  };
+
+
   let renderSize = (_length, _msg) => {
 
     _length = selected?.L < sizeNow && selected?.L;
@@ -135,6 +152,7 @@ function initSizeWatcher() {
 
   clearInterval(timerSize);
 
+  softenThingsUp();
 
   elInput.parentNode.insertBefore( elSize, elInput );
 
